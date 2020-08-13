@@ -7,7 +7,6 @@ const PORT = 3000;
 
 const app = express();
 
-const url = process.env.MONGODB_URI || "mongodb://localhost/budget";
 
 app.use(logger("dev"));
 
@@ -17,10 +16,13 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://drew:drew123@ds147592.mlab.com:47592/heroku_07jr4n1x", {
-  useNewUrlParser: true,
-  useFindAndModify: false
-});
+mongoose.connect(
+  process.env.MONGODB_URI || 
+  "mongodb://drew:drew123@ds147592.mlab.com:47592/heroku_07jr4n1x", 
+  {
+    useMongoClient: true
+}
+);
 
 // routes
 app.use(require("./routes/api.js"));
